@@ -7,12 +7,15 @@ class Reducer:
     score_holder = {}
 
     def __init__(self, input_images, max_num_return, focus_min_threshold=1000, previous_state_image=None, brightness_check=None):
-        if self.validate_inputs(input_images,max_num_return, focus_min_threshold, previous_state_image, brightness_check) != ValueError:
+        try:
+            self.validate_inputs(input_images,max_num_return, focus_min_threshold, previous_state_image, brightness_check)
             self.input_images = input_images
             self.max_num_return = max_num_return
             self.focus_min_threshold = focus_min_threshold
             self.previous_state_image = previous_state_image
             self.brightness_check = brightness_check
+        except ValueError:
+            print("Value error detected")
     
     def get_images(self):
         self.calculate_focus()
@@ -67,9 +70,6 @@ class Reducer:
                     image_hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
                     image_hsv_value = cv.mean(image_hsv)[2]
                     self.score_holder[index] = self.score_holder[index] * (1 / abs(pre_image_hsv_value - image_hsv_value))
-
-        else:
-            pass
     
     def sort_and_return_images(self):
         for index,score in self.score_holder.items():
