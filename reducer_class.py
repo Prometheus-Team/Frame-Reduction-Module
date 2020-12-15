@@ -16,7 +16,7 @@ class Reducer:
             self.focus_min_threshold = focus_min_threshold
             self.previous_state_image = previous_state_image
             self.brightness_check = brightness_check    
-            
+
     def get_images(self):
         self.calculate_focus()
         self.check_image_similarity()
@@ -78,7 +78,7 @@ class Reducer:
     def sort_and_return_images(self):
         toberemovedindex = []
         for index,score in self.score_holder.items():
-            if score < self.focus_min_threshold:
+            if score <= self.focus_min_threshold:
                 toberemovedindex.append(index)
 
         for index in toberemovedindex:
@@ -91,7 +91,7 @@ class Reducer:
 
         returnedImageList = []
         for tupleValues in final_image_scores:
-            returnedImageList.append([self.input_images[tupleValues[0]],tupleValues[1]])
+            returnedImageList.append([self.input_images[tupleValues[0]],tupleValues[0],tupleValues[1]])
 
         return returnedImageList
 
@@ -109,5 +109,7 @@ if __name__ == "__main__":
 
     reducerClass = Reducer(imagesList, 5)
     images = reducerClass.get_images()
-    cv.imshow("image",images[0][0])
+    print(images[0])
+    cv.imshow("image1",images[0][0])
+    cv.imshow("image2",reducerClass.input_images[2])
     cv.waitKey(0)
