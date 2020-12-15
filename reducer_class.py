@@ -25,7 +25,7 @@ class Reducer:
 
     def validate_inputs(self, input_images, max_num_return, focus_min_threshold, previous_state_image, brightness_check):
         # if type(self.input_images) != list or type(self.input_images[0]) != numpy.ndarray:
-        if type(input_images) != list:
+        if type(input_images) != list or type(input_images[0] != numpy.ndarray):
             raise ValueError("Inappropriate values provided as input image \nMust be list of numpy.ndarrays")
 
         if type(max_num_return) != int or max_num_return > len(input_images):
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     reducerClass = Reducer(imagesList, 5)
     images = reducerClass.get_images()
-    print(images[0])
+    print(type(images[0][0]))
     cv.imshow("image1",images[0][0])
     cv.imshow("image2",reducerClass.input_images[2])
     cv.waitKey(0)
