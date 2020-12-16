@@ -25,7 +25,7 @@ class Reducer:
 
     def validate_inputs(self, input_images, max_num_return, focus_min_threshold, previous_state_image, brightness_check):
         # if type(self.input_images) != list or type(self.input_images[0]) != numpy.ndarray:
-        if type(input_images) != list or type(input_images[0] != numpy.ndarray):
+        if type(input_images) != list or type(input_images[0]) != numpy.ndarray:
             raise ValueError("Inappropriate values provided as input image \nMust be list of numpy.ndarrays")
 
         if type(max_num_return) != int or max_num_return > len(input_images):
@@ -95,9 +95,20 @@ class Reducer:
 
         return returnedImageList
 
+def getImagesForTest(folder, size=0):
+        images = []
+        for filename in os.listdir(folder):
+            img = cv2.imread(os.path.join(folder,filename))
+            if img is not None:
+                images.append(img)
+        
+        if size == 0 or type(size) != int:
+            return None
+        return images[:size]
+
 
 if __name__ == "__main__":
-    # import images
+    import images
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--images", required=True,
 	help="path to input directory of images")
